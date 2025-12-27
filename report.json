@@ -1,0 +1,33 @@
+{
+    "rows": 4,
+    "columns": {
+        "name": {
+            "missing": 0,
+            "types": [
+                "string"
+            ],
+            "inferred_type": "string"
+        },
+        "age": {
+            "missing": 1,
+            "types": [
+                "integer"
+            ],
+            "inferred_type": "integer"
+        },
+        "city": {
+            "missing": 1,
+            "types": [
+                "string"
+            ],
+            "inferred_type": "string"
+        },
+        "salary": {
+            "missing": 1,
+            "types": [
+                "integer"
+            ],
+            "inferred_type": "integer"
+        }
+    }
+}
