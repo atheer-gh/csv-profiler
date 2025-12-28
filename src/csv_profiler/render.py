@@ -1,24 +1,15 @@
 import json
 
-def render_markdown(report):
-    """Generates a Markdown table for the report (Ref: Page 84)"""
-    lines = []
-    lines.append("# CSV Profiling Report")
-    lines.append(f"- **Total Rows**: {report['rows']}")
-    lines.append("\n## Column Analysis")
-    lines.append("| Column | Missing | Types |")
-    lines.append("| --- | --- | --- |")
-    
-    for col, stats in report["columns"].items():
-        types_str = ", ".join(stats["types"])
-        lines.append(f"| {col} | {stats['missing']} | {types_str} |")
-    
-    return "\n".join(lines)
+def render_markdown(report: dict):
+    md = f"## CSV Profile Report\n\n"
+    md += f"- **Total Rows**: {report['rows']}\n"
+    md += f"- **Total Columns**: {len(report['columns'])}\n\n"
+    md += "| Column Name | Missing Values |\n"
+    md += "|-------------|----------------|\n"
+    for col, stats in report['columns'].items():
+        md += f"| {col} | {stats['missing']} |\n"
+    return md
 
-def write_json(data, filename):
-    """Writes the profile report to a JSON file (Ref: Page 84)"""
-    try:
-        with open(filename, 'w', encoding='utf-8') as f:
-            json.dump(data, f, indent=4)
-    except Exception as e:
-        print(f" Error saving JSON: {e}")
+def write_json(report: dict, output_path: str):
+    with open(output_path, 'w') as f:
+        json.dump(report, f, indent=4)

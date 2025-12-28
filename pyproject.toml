@@ -8,3 +8,5 @@ dependencies = [
     "streamlit>=1.52.2",
     "typer>=0.21.0",
 ]
+
+
