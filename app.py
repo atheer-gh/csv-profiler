@@ -1,52 +1,39 @@
 import streamlit as st
 import pandas as pd
-import json
-from csv_profiler.profile import Profiler
+from io import StringIO
+from csv_profiler.profiling import profile_rows
 from csv_profiler.render import render_markdown
 
+st.set_page_config(page_title="CSV Profiler", layout="wide")
 
-st.set_page_config(page_title="CSV Profiler Tool", layout="wide")
-
-st.title(" CSV Profiler")
-st.write("Upload your CSV file to get a detailed analysis.")
+st.title(" CSV Profiler - Web Version")
+st.write("Upload your CSV file to get a detailed profile report.")
 
 
 uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
 
 if uploaded_file is not None:
-    
-    df = pd.read_csv(uploaded_file)
-    
-   
-    st.subheader("Data Preview")
-    st.dataframe(df.head())
 
-   
-    if st.button("Run Analysis"):
-        
-        rows = df.to_dict(orient="records")
-        
+    df = pd.read_csv(uploaded_file)
+    rows = df.to_dict('records')
     
-        profiler = Profiler(rows)
-        report = profiler.get_profile()
-        
-        st.success("Analysis Complete!")
-        
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            st.subheader("Summary")
-            st.write(f"Total Rows: {report['rows']}")
-            st.markdown(render_markdown(report))
-            
-        with col2:
-            st.subheader("Export Results")
-          
-            json_string = json.dumps(report, indent=4)
-            st.download_button(
-                label="Download JSON Report",
-                data=json_string,
-                file_name="report.json",
-                mime="application/json"
-            )
-st.info("Built for AI Professionals Bootcamp - Week 1")
+    st.success("File uploaded successfully!")
+    
+    st.subheader("Data Preview (Top 5 rows)")
+    st.dataframe(df.head())
+    
+    report = profile_rows(rows)
+    markdown_report = render_markdown(report)
+    st.markdown("---")
+    st.markdown(markdown_report)
+    
+    st.sidebar.header("Export Options")
+    
+    st.sidebar.download_button(
+        label="Download Report as Markdown",
+        data=markdown_report,
+        file_name="report.md",
+        mime="text/markdown"
+    )
+    
+    

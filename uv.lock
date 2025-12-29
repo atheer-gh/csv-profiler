@@ -155,16 +155,18 @@ wheels = [
 [[package]]
 name = "csv-profile"
 version = "0.1.0"
-source = { virtual = "." }
+source = { editable = "." }
 dependencies = [
+    { name = "pandas" },
     { name = "streamlit" },
     { name = "typer" },
 ]
 
 [package.metadata]
 requires-dist = [
-    { name = "streamlit", specifier = ">=1.52.2" },
-    { name = "typer", specifier = ">=0.21.0" },
+    { name = "pandas", specifier = ">=2.0.0" },
+    { name = "streamlit", specifier = ">=1.30.0" },
+    { name = "typer", specifier = ">=0.9.0" },
 ]
 
 [[package]]
